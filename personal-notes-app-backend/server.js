@@ -29,14 +29,14 @@ const db = require("./app/models");
 const Role = db.role;
 
 // to be changed during prod setup
-// db.sequelize.sync();
+db.sequelize.sync();
 
 
 // below block of code is to be used during development phase of application backend to keep the db clean
-db.sequelize.sync({ force: true }).then(() => {
-    console.log('Drop and Resync Db');
-    initial();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log('Drop and Resync Db');
+//     initial();
+// });
 
 function initial() {
     Role.create({

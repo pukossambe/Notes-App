@@ -1,8 +1,8 @@
 module.exports = {
     HOST: "localhost",
     USER: "postgres",
-    PASSWORD: "admin",
-    DB: "perona_notes_db",
+    PASSWORD: "*****",
+    DB: "peronal_notes_db",
     dialect: "postgres",
     pool: {
         max: 10,
