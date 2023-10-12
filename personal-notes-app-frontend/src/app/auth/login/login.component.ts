@@ -28,9 +28,12 @@ export class LoginComponent implements OnInit {
 
   signin(): void {
     this.http.post('http://localhost:8080/api/auth/signin', this.form.getRawValue(), { withCredentials: true }).subscribe(res => {
-      console.log(res);
-      localStorage.setItem("token", JSON.stringify(res)); // Store the token in localStorage
+      localStorage.setItem("token", res.toString()); // Store the token in localStorage
       this.router.navigate(['/main-layout']);
-    })
+    }, (error) => {
+      // Handle errors here
+      this.router.navigate(['/register']);
+    }
+    )
   }
 }

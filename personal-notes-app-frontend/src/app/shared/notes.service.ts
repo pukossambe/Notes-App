@@ -31,17 +31,21 @@ export class NotesService {
     return this.notes[id];
 
   }
+  getNotesID(id: string) {
+    console.log(this.notes);
+  }
 
   getId(note: Note) {
     return this.notes.indexOf(note);
   }
 
   add(note: Note, noteId: string) {
+    // this method will add a note to the notes array and return the id of the note
     // data stored in databse implementation
-    console.log(note);
+    console.log("Adding New Note");
+    console.log("Token :", this.token);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-access-token': JSON.stringify(this.token),
+      "x-access-token": JSON.stringify(this.token),
       'note_id': noteId
     });
     const body = {
@@ -50,45 +54,67 @@ export class NotesService {
     };
     this.http.post(this.apiUrl, body, { headers: headers }).subscribe(res => {
       console.log("Notes Added:", res);
+    }, (error) => {
+      // Handle errors here
+      console.log(error);
     });
 
     // this method will add a note to the notes array and return the id of the note
     // local data implementation 
     // where the id = index 
-    let newLength = this.notes.push(note);
+    const notesDetails = {
+      "title": note.title,
+      "body": note.body,
+      "notesId": noteId
+    }
+    let newLength = this.notes.push(notesDetails);
     let index = newLength - 1;
     return index;
 
   }
 
-  update(id: number, title: string, body: string) {
+  update(id: number, title: string, body: string, noteId: string) {
     // local data implementation 
     let note = this.notes[id];
     note.title = title;
     note.body = body;
 
+
     // data stored in databse implementation
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
       'x-access-token': JSON.stringify(this.token),
-      'note_id': note.notesId
+      'note_id': noteId
     });
-    this.http.put(this.apiUrl, JSON.stringify(note), { headers: headers });
+    const updatedDetails = {
+      "title": title,
+      "body": body
+    }
+    this.http.put(this.apiUrl, updatedDetails, { headers: headers }).subscribe(res => {
+      console.log("Note Updated: ", res);
+    }, (error) => {
+      // Handle errors here
+      console.log(error);
+    });
 
   }
 
   delete(id: number) {
     // local data implementation 
-    //update the databse
-    let note = this.notes[id];
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-access-token': JSON.stringify(this.token),
-      'note_id': note.notesId
-    });
-    this.http.put(this.apiUrl, { headers: headers });
-
     this.notes.splice(id, 1);
+    //update the databse
+    const note = this.notes[id];
+    const notesId = this.notes[id].notesId;
+
+    const headers = new HttpHeaders({
+      'x-access-token': JSON.stringify(this.token),
+      'note_id': notesId
+    });
+    this.http.delete(this.apiUrl, { headers: headers }).subscribe(res => {
+      console.log("Note Deleted: ", res);
+    }, (error) => {
+      // Handle errors here
+      console.log(error);
+    });
 
   }
 }

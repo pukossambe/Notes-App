@@ -15,9 +15,6 @@ export class NotesListComponent {
   ngOnInit() {
     //  we want to retrieve all notes from NotesService
     this.notes = this.notesService.getAll()
-
-    console.log(this.notesService.getAll());
-
   }
 
   deleteNote(id: number) {

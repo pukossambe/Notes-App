@@ -23,17 +23,4 @@ export class NavComponent implements OnInit {
     }
   }
 
-  hideNavBar() {
-    this.token = localStorage.getItem("token");
-    console.log(this.token);
-    if (this.token) {
-      console.log('user authenticated');
-      this.isVisible = false;
-    }
-    else {
-      // there is no text overflow hide the fade out truncator
-      console.log('please login');
-      this.isVisible = true;
-    }
-  }
 }

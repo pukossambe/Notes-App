@@ -39,12 +39,11 @@ export class NoteDetailsComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form);
     if (this.new) {
       // we should  save the note
       this.notesService.add(form.value, this.note.notesId);
     } else {
-      this.notesService.update(this.noteId as number, form.value.title, form.value.body);
+      this.notesService.update(this.noteId as number, form.value.title, form.value.body, this.note.notesId);
     }
     this.router.navigateByUrl('/main-layout');
   }

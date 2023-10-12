@@ -16,7 +16,7 @@ exports.getPersonalNotes = async (req, res) => {
     const userId = req.userId; // Assuming user ID is available in req.user after authentication
     try {
         const notes = await Note.findAll({ where: { userId: userId } });
-        res.json(notes.noteId);
+        res.json(notes);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
